@@ -1,0 +1,19 @@
+---
+# Create the rclone config dir
+- name: Create rclone config dir
+  file:
+    dest: "{{ ansible_env.HOME }}/.config/rclone"
+    state: directory
+
+# Copy over the rclone config file
+- name: Copy rclone config file
+  template:
+    src: templates/rclone.conf.j2
+    dest: "{{ ansible_env.HOME }}/.config/rclone/rclone.conf"
+
+# Copy the template script to .local/bin
+- name: Copy rclone script
+  template:
+    src: templates/rclone.sh.j2
+    dest: "{{ ansible_env.HOME }}/.local/bin/borgbase-sync.sh"
+    mode: '0755'

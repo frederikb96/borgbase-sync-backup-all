@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Prepare LVM
+mkdir -p ~/mnt
+mount /dev/vg-backup/lv-backup ~/mnt
+
+# Sync each repository
+{% for repo in repos %}
+rclone sync -v {{ repo.mount_name }}:repo ~/mnt/{{ repo.mount_name }}
+{% endfor %}
+
+umount ~/mnt
