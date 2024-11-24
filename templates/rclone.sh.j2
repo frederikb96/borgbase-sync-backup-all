@@ -2,14 +2,14 @@
 
 # Function to handle cleanup on exit
 cleanup() {
-    echo -e "\n\nCaught SIGINT or Script Exit. Cleaning up..."
+    echo -e "\n\nCaught SIGINT. Cleaning up..."
     echo "Unmounting Disk {{ uuid }} from ~/.mnt, root needed"
     sudo umount ~/.mnt || echo "Failed to unmount. Please check manually."
-    exit
+    exit 1
 }
 
-# Trap SIGINT (Ctrl+C) and EXIT to ensure cleanup
-trap cleanup SIGINT EXIT
+# Trap SIGINT (Ctrl+C) to ensure cleanup
+trap cleanup SIGINT
 
 # Prepare Mount
 echo "Mount Disk {{ uuid }} to ~/.mnt, root needed"
@@ -24,4 +24,6 @@ rclone sync -v {{ repo.mount_name }}:repo ~/.mnt/{{ repo.mount_name }}
 
 echo -e "\n\n\nSyncing Completed\n"
 
-# Cleanup will be triggered here on exit
+# Cleanup
+echo "Unmounting Disk {{ uuid }} from ~/.mnt, root needed"
+sudo umount ~/.mnt
