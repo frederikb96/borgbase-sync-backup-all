@@ -15,7 +15,8 @@ cp group_vars/all.yml.tpl group_vars/all.yml
 ansible-playbook main.yml
 ```
 
-This will:
+4. Prepare the disk: Simply mount it once manual and format as ext4 and chown it to be usable by user.
+
+The playbook will:
 - Create the rclone configuration directory and generate the `rclone.conf` file based on your repositories.
-- Install a script (`borgbase-sync.sh`) in your `~/.local/bin` directory for performing the sync operations.
-- Automate the mounting of your backup LVM and syncing of the repositories to the mount point.
+- Install a script (`my-borgbase-sync.sh`) in your `~/.local/bin` directory for performing the sync operations.
