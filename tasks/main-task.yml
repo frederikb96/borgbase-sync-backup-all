@@ -15,5 +15,5 @@
 - name: Copy rclone script
   template:
     src: templates/rclone.sh.j2
-    dest: "{{ ansible_env.HOME }}/.local/bin/borgbase-sync.sh"
+    dest: "{{ ansible_env.HOME }}/.local/bin/my-borgbase-sync.sh"
     mode: '0755'
