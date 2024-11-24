@@ -1,12 +1,27 @@
 #!/bin/bash
 
-# Prepare LVM
+# Function to handle cleanup on exit
+cleanup() {
+    echo -e "\n\nCaught SIGINT or Script Exit. Cleaning up..."
+    echo "Unmounting Disk {{ uuid }} from ~/.mnt, root needed"
+    sudo umount ~/.mnt || echo "Failed to unmount. Please check manually."
+    exit
+}
+
+# Trap SIGINT (Ctrl+C) and EXIT to ensure cleanup
+trap cleanup SIGINT EXIT
+
+# Prepare Mount
+echo "Mount Disk {{ uuid }} to ~/.mnt, root needed"
 mkdir -p ~/.mnt
 sudo mount /dev/disk/by-uuid/{{ uuid }} ~/.mnt
 
 # Sync each repository
 {% for repo in repos %}
+echo -e "\n\n\nSyncing {{ repo.mount_name }}\n"
 rclone sync -v {{ repo.mount_name }}:repo ~/.mnt/{{ repo.mount_name }}
 {% endfor %}
 
-sudo umount ~/.mnt
+echo -e "\n\n\nSyncing Completed\n"
+
+# Cleanup will be triggered here on exit
