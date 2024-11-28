@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+    - name: Delete rclone config dir
+      file:
+        dest: "{{ ansible_env.HOME }}/.config/rclone"
+        state: absent
+
+    - name: Delete rclone config file
+      file:
+        dest: "{{ ansible_env.HOME }}/.local/bin/my-borgbase-sync.sh"
+        state: absent
